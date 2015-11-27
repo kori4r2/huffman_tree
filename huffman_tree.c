@@ -34,6 +34,7 @@ TREE *get_huffman_tree(char *string){
 		quick_sort(vector, 0, size-1, 0);
 		tree->decoding = create_list();
 		for(i = size-1; i >= 0; i--) insert_sorted(tree->decoding, vector[i]);
+//		print_list(tree->decoding);
 		quick_sort(vector, 0, size-1, 1);
 		for(i = 0; i < size; i++){
 			enqueue(queue, create_node(vector[i]));

@@ -29,8 +29,8 @@ void min_heapify(int n, NODE **vector, int top){
 		int min = top;
 //		int left_child = left_child(top);
 //		int right_child = right_child(top);
-		if(left_child(top) < n && compare(vector[top]->item, vector[left_child(top)]->item, 1)  == 1) min = left_child(top);
-		if(right_child(top) < n && compare(vector[top]->item, vector[right_child(top)]->item, 1)  == 1) min = right_child(top);
+		if(left_child(top) < n && compare(vector[min]->item, vector[left_child(top)]->item, 1)  == 1) min = left_child(top);
+		if(right_child(top) < n && compare(vector[min]->item, vector[right_child(top)]->item, 1)  == 1) min = right_child(top);
 		if(min != top){
 			NODE *aux = vector[top];
 			vector[top] = vector[min];
@@ -46,8 +46,9 @@ int enqueue(QUEUE *queue, NODE *node){
 		queue->size++;
 		queue->vector = (NODE**)realloc(queue->vector, sizeof(NODE*) * queue->size);
 		queue->vector[queue->size-1] = node;
-		for(i = parent(queue->size-1); i >= 0; i--)
+		for(i = parent(queue->size-1); i >= 0; i--){
 			min_heapify(queue->size, queue->vector, i);
+		}
 
 		return 0;
 	}
@@ -64,6 +65,7 @@ int dequeue(QUEUE *queue){
 				queue->vector = NULL;
 			}else{
 				queue->vector = (NODE**)realloc(queue->vector, sizeof(NODE*) * queue->size);
+				min_heapify(queue->size, queue->vector, 0);
 			}
 
 			return 0;

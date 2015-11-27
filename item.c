@@ -36,6 +36,7 @@ char *item_code(ITEM *item){
 }
 
 void print_item(ITEM *item){
+	printf("%4d ", item->counter);
 	printf("'%c': %s\n", item->character, item->code);
 }
 
