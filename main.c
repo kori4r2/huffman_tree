@@ -12,7 +12,6 @@ int main(int argc, char *argv[]){
 	char *decoded = decode(coded, tree);
 	print_tree(tree);
 	printf("\nencode: %s\n\ndecode: %s\n", coded, decoded);
-	printf("\nstrcmp result = %d", strcmp(input, decoded));
 	free(input);
 	free(coded);
 	free(decoded);

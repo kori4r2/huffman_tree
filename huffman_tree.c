@@ -24,29 +24,30 @@ TREE *get_huffman_tree(char *string){
 		tree = (TREE*)malloc(sizeof(TREE));
 		tree->root = NULL;
 		ITEM **vector = NULL;
-		QUEUE *queue = create_queue();
+		QUEUE *queue;
 		NODE *left, *right, *parent;
 
 		int i, size = 0;
 		for(i = 0; string[i] != '\0'; i++){
 			vector = get_character(vector, string[i], &size);
 		}
-		quick_sort(vector, 0, size-1, 0);
+		quick_sort(vector, 0, size-1);
 		tree->decoding = create_list();
-		for(i = size-1; i >= 0; i--) insert_sorted(tree->decoding, vector[i]);
-//		print_list(tree->decoding);
-		quick_sort(vector, 0, size-1, 1);
 		for(i = 0; i < size; i++){
-			enqueue(queue, create_node(vector[i]));
+//			print_item(vector[i]);
+			insert_front(tree->decoding, vector[i]);
 		}
+//		printf("------------------\n");
+//		print_list(tree->decoding);
+		queue = create_queue(vector, size);
 		free(vector);
 
 		//construção da árvore
 		while(!empty_queue(queue)){
-			left = front_queue(queue);
+			right = front_queue(queue);
 			dequeue(queue);
 			if(!empty_queue(queue)){
-				right = front_queue(queue);
+				left = front_queue(queue);
 				dequeue(queue);
 				parent = create_node(create_item('\0'));
 				set_count(parent->item, (item_count(left->item) + item_count(right->item)));
@@ -54,8 +55,7 @@ TREE *get_huffman_tree(char *string){
 				parent->right_child = right;
 				enqueue(queue, parent);
 			}else{
-				tree->root = left;
-				if(left == NULL) printf("wut\n");
+				tree->root = right;
 			}
 		}
 		delete_queue(&queue);

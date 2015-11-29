@@ -8,7 +8,7 @@
 typedef struct list LIST;
 
 LIST *create_list(void);
-void insert_sorted(LIST*,ITEM*);
+void insert_front(LIST*,ITEM*);
 void print_list(LIST*);
 void delete_list(LIST**);
 

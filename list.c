@@ -33,22 +33,12 @@ void delete_l_node(L_NODE **node){
 	}
 }
 
-void insert_sorted(LIST *list,ITEM *item){
-	L_NODE *previous, *next, *new_node;
-	previous = NULL;
-	next = list->first;
-	while(next != NULL && (compare(item, next->item, 0) > 0)){
-		if(previous == NULL) previous = list->first;
-		else previous = previous->next;
-
-		if(next != NULL) next = next->next;
-	}
+void insert_front(LIST *list,ITEM *item){
+	L_NODE *new_node;
 	new_node = create_l_node(item);
 
-	if(previous == NULL) list->first = new_node;
-	else previous->next = new_node;
-
-	new_node->next = next;
+	new_node->next = list->first;
+	list->first = new_node;
 }
 
 void print_list(LIST *list){

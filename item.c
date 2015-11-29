@@ -36,8 +36,7 @@ char *item_code(ITEM *item){
 }
 
 void print_item(ITEM *item){
-	printf("%4d ", item->counter);
-	printf("'%c': %s\n", item->character, item->code);
+	printf("'%c' : %s\n", item->character, item->code);
 }
 
 void delete_item(ITEM **item){
@@ -48,16 +47,10 @@ void delete_item(ITEM **item){
 	}
 }
 
-int compare(ITEM *item1, ITEM *item2, int type){
-	if(!type){
-		if(item1->character > item2->character) return 1;
-		if(item1->character < item2->character) return -1;
-		return 0;
-	}else{
-		if(item1->counter > item2->counter) return 1;
-		if(item1->counter < item2->counter) return -1;
-		return 0;
-	}
+int compare(ITEM *item1, ITEM *item2){
+	if(item1->counter > item2->counter) return 1;
+	if(item1->counter < item2->counter) return -1;
+	return 0;
 }
 
 void swap(ITEM **vector, int i, int j){
@@ -69,8 +62,7 @@ void swap(ITEM **vector, int i, int j){
 }
 
 ITEM **get_character(ITEM **vector, char character, int *size){
-	int i, found;
-	found = 0;
+	int i, found = 0;
 	for(i = 0; i < *size && !found; i++){
 		if(vector[i]->character == character){
 			found = 1;
@@ -98,51 +90,27 @@ void add_code(ITEM *item, unsigned int value, int steps){
 	}
 }
 
-int check_middle_partition(ITEM **vector, int i, int j, int sort_type){
-	int k = j-1;
-	while(k > i){
-		if(compare(vector[j], vector[k], sort_type) != 0){
-			swap(vector, i, k);
-			return 0;
-		}
-		k--;
-	}
-	return 1;
-}
-
-void partition(ITEM **vector, int left, int right, int *l_pivot, int *r_pivot, int sort_type){
+int partition(ITEM **vector, int left, int right){
 	int i, j;
-	i = left;
-	j = right;
-	ITEM *pivot = vector[(left+right)/2];
 
-	while(i < j){
-		while(j > left && compare(vector[j], pivot, sort_type) > 0) j--;
-		while(i < right && compare(vector[i], pivot, sort_type) < 0) i++;
-		swap(vector, i, j);
-		if(compare(vector[i], pivot, sort_type) == 0 && compare(vector[j], pivot, sort_type) == 0){
-			if(check_middle_partition(vector, i, j, sort_type)){
-				*l_pivot = i;
-				*r_pivot = j;
-				return;
-			}
+	i = left;
+	for(j = left+1; j <= right; j++){
+		if(compare(vector[j], vector[left]) == -1){
+			++i;
+			swap(vector, i, j);
 		}
 	}
-	*l_pivot = i;
-	*r_pivot = j;
+	swap(vector, left, i);
+
+	return i;
 }
 
-void quick_sort(ITEM **vector, int start, int end, int sort_type){
-	if(start >= end) return;
 
-	int r_pivot, l_pivot;
-	partition(vector, start, end, &l_pivot, &r_pivot, sort_type);
+void quick_sort(ITEM **vector, int left, int right){
+	if(left < right){
+		int pos = partition(vector, left, right);
 
-	if(l_pivot < (end+start)/2){
-		quick_sort(vector, start, l_pivot-1, sort_type);
-		quick_sort(vector, r_pivot+1, end, sort_type);
-	}else{
-		quick_sort(vector, r_pivot+1, end, sort_type);
-		quick_sort(vector, start, l_pivot-1, sort_type);
+		quick_sort(vector, left, pos-1);
+		quick_sort(vector, pos+1, right);
 	}
 }

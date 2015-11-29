@@ -14,9 +14,7 @@ typedef struct q_node Q_NODE;
 typedef struct queue QUEUE;
 
 NODE *create_node(ITEM*);
-Q_NODE *create_q_node(NODE*);
-int delete_q_node(Q_NODE**);
-QUEUE *create_queue(void);
+QUEUE *create_queue(ITEM**, int);
 int empty_queue(QUEUE*);
 int enqueue(QUEUE*, NODE*);
 int dequeue(QUEUE*);

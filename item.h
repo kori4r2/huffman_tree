@@ -13,8 +13,8 @@ int item_count(ITEM*);
 char item_char(ITEM*);
 char *item_code(ITEM*);
 void delete_item(ITEM**);
-int compare(ITEM*, ITEM*, int);
-void quick_sort(ITEM**, int, int, int);
+int compare(ITEM*, ITEM*);
+void quick_sort(ITEM**, int, int);
 ITEM **get_character(ITEM **vector, char character, int *size);
 void add_code(ITEM*, unsigned int, int steps);
 
