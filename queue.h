@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "item.h"
 
+// A struct node precisa ser declarada em queue.h pois será necessário acessar seu conteúdo tanto em queue.c quanto em huffman_tree.c
 typedef struct node{
 	ITEM *item;
 	struct node *left_child;
